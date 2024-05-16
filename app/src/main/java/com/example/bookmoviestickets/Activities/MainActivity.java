@@ -17,18 +17,21 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.bookmoviestickets.Adapters.FilmListApdater;
+import com.example.bookmoviestickets.Adapters.CategoryListAdapter;
+import com.example.bookmoviestickets.Adapters.FilmListAdapter;
 import com.example.bookmoviestickets.Adapters.SliderAdapters;
+import com.example.bookmoviestickets.Domain.GenresItem;
 import com.example.bookmoviestickets.Domain.ListFilm;
 import com.example.bookmoviestickets.Domain.SliderItems;
 import com.example.bookmoviestickets.R;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView.Adapter adaterTopPhim, AdapterSapChieu, adapterDanhMuc;
+    private RecyclerView.Adapter adapterTopPhim, adapterSapChieu, adapterDanhMuc;
     private RecyclerView recyclerViewTopPhim, recyclerViewSapChieu, recyclerViewDanhMuc;
     private RequestQueue mRequestQueue;
     private StringRequest mStringRequest, mStringRequest2, mStringRequest3;
@@ -43,24 +46,60 @@ public class MainActivity extends AppCompatActivity {
 
         initView();
         banners();
-        sendRequest();
+        sendRequestTopPhim();
+        sendRequestSapChieu();
+        sendRequestDanhMuc();
     }
 
-    private void sendRequest() {
+    private void sendRequestDanhMuc() {
+        mRequestQueue = Volley.newRequestQueue(this);
+        loading2.setVisibility(View.VISIBLE);
+        mStringRequest2 = new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/genres", response -> {
+            Gson gson = new Gson();
+            loading2.setVisibility(View.GONE);
+            ArrayList<GenresItem> catList = gson.fromJson(response, new TypeToken<ArrayList<GenresItem>>(){}.getType());
+            adapterDanhMuc = new CategoryListAdapter(catList);
+            recyclerViewDanhMuc.setAdapter(adapterDanhMuc);
+        }, error -> {
+            loading2.setVisibility(View.GONE);
+            Log.i("UiLover", "onErrorResponse: " + error.toString());
+        });
+        mRequestQueue.add(mStringRequest2);
+    }
+
+    private void sendRequestSapChieu() {
+        mRequestQueue = Volley.newRequestQueue(this);
+        loading3.setVisibility(View.VISIBLE);
+        mStringRequest3 = new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/movies?page=2", response -> {
+            Gson gson = new Gson();
+            loading3.setVisibility(View.GONE);
+            ListFilm items = gson.fromJson(response, ListFilm.class);
+            adapterSapChieu = new FilmListAdapter(items);
+            recyclerViewSapChieu.setAdapter(adapterSapChieu);
+        }, error -> {
+            loading1.setVisibility(View.GONE);
+            Log.i("UiLover", "onErrorResponse: " + error.toString());
+        });
+        mRequestQueue.add(mStringRequest3);
+    }
+
+    private void sendRequestTopPhim() {
         mRequestQueue = Volley.newRequestQueue(this);
         loading1.setVisibility(View.VISIBLE);
         mStringRequest = new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/movies?page=1", response -> {
             Gson gson = new Gson();
             loading1.setVisibility(View.GONE);
             ListFilm items = gson.fromJson(response, ListFilm.class);
-            adaterTopPhim = new FilmListApdater(items);
-            recyclerViewTopPhim.setAdapter(adaterTopPhim);
+            adapterTopPhim = new FilmListAdapter(items);
+            recyclerViewTopPhim.setAdapter(adapterTopPhim);
         }, error -> {
             loading1.setVisibility(View.GONE);
-            Log.i("Tuong", "onErrorResponse: " + error.toString());
+            Log.i("UiLover", "onErrorResponse: " + error.toString());
         });
-        mStringRequest.addMarker(String.valueOf(mStringRequest));
+        mRequestQueue.add(mStringRequest);
     }
+
+
 
 
     private void banners() {
@@ -116,13 +155,13 @@ public class MainActivity extends AppCompatActivity {
         viewPager2 = findViewById(R.id.viewpageSlider);
         recyclerViewTopPhim=findViewById(R.id.view1);
         recyclerViewTopPhim.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerViewSapChieu=findViewById(R.id.view2);
+        recyclerViewSapChieu=findViewById(R.id.view3);
         recyclerViewSapChieu.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        recyclerViewDanhMuc=findViewById(R.id.view3);
+        recyclerViewDanhMuc=findViewById(R.id.view2);
         recyclerViewDanhMuc.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        loading1=findViewById(R.id.progressBar1);
-        loading2=findViewById(R.id.progressBar2);
-        loading3=findViewById(R.id.progressBar3);
+        loading1=findViewById(R.id.loading1);
+        loading2=findViewById(R.id.loading2);
+        loading3=findViewById(R.id.loading3);
 
     }
 }

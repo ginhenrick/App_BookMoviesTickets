@@ -19,24 +19,24 @@ import com.example.bookmoviestickets.Activities.DetailActivity;
 import com.example.bookmoviestickets.Domain.ListFilm;
 import com.example.bookmoviestickets.R;
 
-public class FilmListApdater extends RecyclerView.Adapter<FilmListApdater.ViewHolder> {
+public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.ViewHolder> {
     ListFilm items;
     Context context;
 
-    public FilmListApdater(ListFilm items) {
+    public FilmListAdapter(ListFilm items) {
         this.items = items;
     }
 
     @NonNull
     @Override
-    public FilmListApdater.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FilmListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_film, parent, false);
         return new ViewHolder(inflate);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FilmListApdater.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FilmListAdapter.ViewHolder holder, int position) {
         holder.titleTxt.setText(items.getData().get(position).getTitle());
         RequestOptions requestOptions = new RequestOptions();
         requestOptions = requestOptions.transform(new CenterCrop(), new RoundedCorners(30));
