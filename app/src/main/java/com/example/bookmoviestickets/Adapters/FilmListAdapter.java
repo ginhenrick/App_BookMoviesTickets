@@ -51,6 +51,7 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.ViewHo
             intent.putExtra("id", items.getData().get(position).getId());
             context.startActivity(intent);
         });
+
     }
 
     @Override
@@ -67,4 +68,5 @@ public class FilmListAdapter extends RecyclerView.Adapter<FilmListAdapter.ViewHo
             pic=itemView.findViewById(R.id.pic);
         }
     }
+
 }

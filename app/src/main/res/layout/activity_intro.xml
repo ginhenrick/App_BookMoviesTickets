@@ -54,53 +54,48 @@
                     android:id="@+id/textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="Discover yourself"
                     android:textColor="@color/white"
-                    android:text="Khám phá của bạn"
-                    android:textStyle="bold"
-                    android:textSize="27sp"
-                    />
+                    android:textSize="40sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Chương trình yêu thích"
-                    android:textColor="@color/orange"
+                    android:text="Favorite Movies"
+                    android:textColor="@color/blue"
                     android:textSize="27sp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Xem bây giờ hoặc xem sau"
+                    android:text="Watch now or watch later"
                     android:textColor="@color/white"
                     android:textSize="27sp"
-                    android:textStyle="bold"
-                    />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/textView4"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Bạn có thể duyệt phim và chương trình theo thể loại, tìm kiếm tiêu đề cụ thể hoặc xem đề xuất của chúng tôi dành cho bạn"
+                    android:text="You can browse movies and shows by genre, search for specific titles, or see our recommendations for you"
                     android:textColor="#9F9A9A"
-                    android:textSize="17sp"
-                    />
+                    android:textSize="17sp" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/getInBtn"
                     style="@android:style/Widget.Button"
-                    android:layout_marginTop="8dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Xem ngay"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/blue_button_background"
+                    android:text="Watch Now!"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
 
-                    android:background="@drawable/orange_button_background"
-                    />
+                    android:textSize="18sp" />
 
             </LinearLayout>
 

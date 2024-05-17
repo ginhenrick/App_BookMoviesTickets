@@ -1,0 +1,11 @@
+{
+  "User": {
+    "Tuong": {
+      "Dateofbirth": "19/10/2003",
+      "Email": "nguyenminhtuong19102003@gmail.com",
+      "Password": 123,
+      "Phonenumber": 329407627,
+      "Username": "Tuong"
+    }
+  }
+}

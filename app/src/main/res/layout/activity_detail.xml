@@ -7,7 +7,7 @@
     android:background="@color/main_color"
     tools:context=".Activities.DetailActivity">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,9 +25,19 @@
                 android:id="@+id/picDetail"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:background="@drawable/gradient_background"
+                app:layout_constraintBottom_toBottomOf="@+id/picDetail"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout2"
@@ -43,7 +53,7 @@
 
 
                 <ImageView
-                    android:id="@+id/imageView5"
+                    android:id="@+id/backImg"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:background="@drawable/oval_btn_background"
@@ -119,6 +129,8 @@
                 android:id="@+id/genreView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/picDetail" />
@@ -173,11 +185,13 @@
                 android:id="@+id/imagesRecyler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/movieActorsInfo" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <ProgressBar
         android:id="@+id/progressBarDetail"
@@ -185,8 +199,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollView3"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/scrollView3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
