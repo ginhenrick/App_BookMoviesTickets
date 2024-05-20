@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="action_explorer" type="id" />
+    <item name="action_favorite" type="id" />
+    <item name="action_profile" type="id" />
+    <item name="action_history" type="id" />
+    <item name="main" type="id" />
+</resources>

@@ -184,7 +184,9 @@
                 android:text="Create account"
                 android:textColor="@color/white"
                 android:textSize="18dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:stateListAnimator="@drawable/button_hover_animator"
+                />
 
         </LinearLayout>
     </ScrollView>

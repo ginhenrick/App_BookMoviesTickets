@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "429266446081",
+    "firebase_url": "https://bookmoviestickets-f53cc-default-rtdb.firebaseio.com",
+    "project_id": "bookmoviestickets-f53cc",
+    "storage_bucket": "bookmoviestickets-f53cc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:429266446081:android:1cb751c73aca25c8d71d00",
+        "android_client_info": {
+          "package_name": "com.example.bookmoviestickets"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJw5nJrNRg6kVgdupEAAtEPb2C360cghM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

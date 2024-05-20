@@ -1,10 +1,16 @@
 package com.example.bookmoviestickets.Activities;
 
+import android.animation.AnimatorInflater;
+import android.animation.StateListAnimator;
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +30,9 @@ import com.example.bookmoviestickets.Domain.GenresItem;
 import com.example.bookmoviestickets.Domain.ListFilm;
 import com.example.bookmoviestickets.Domain.SliderItems;
 import com.example.bookmoviestickets.R;
+import com.google.android.material.bottomappbar.BottomAppBar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -39,17 +48,88 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager2 viewPager2;
     private Handler slideHandler = new Handler();
 
+    private BottomAppBar bottomAppBar;
+
+    private FirebaseAuth mAuth;
+
+
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mAuth = FirebaseAuth.getInstance();
 
         initView();
         banners();
         sendRequestTopPhim();
         sendRequestSapChieu();
         sendRequestDanhMuc();
+
+        bottomAppBar = findViewById(R.id.bottomAppBar);
+
+        // Thêm hover cho icon Explorer
+        ImageView explorerIcon = findViewById(R.id.explorerIcon);
+        StateListAnimator stateListAnimator = (StateListAnimator) AnimatorInflater.loadStateListAnimator(this, R.animator.button_hover_animator);
+        explorerIcon.setStateListAnimator(stateListAnimator);
+        // Thêm hover cho các icon còn lại (Favorite, History, Profile)
+        ImageView favoriteIcon = findViewById(R.id.favoriteIcon);
+        favoriteIcon.setStateListAnimator(stateListAnimator);
+        ImageView historyIcon = findViewById(R.id.historyIcon);
+        historyIcon.setStateListAnimator(stateListAnimator);
+        ImageView profileIcon = findViewById(R.id.profileIcon);
+        profileIcon.setStateListAnimator(stateListAnimator);
+        // Xử lý click cho Explorer (TextView và ImageView)
+        TextView explorerText = findViewById(R.id.explorerText);
+        explorerText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRequestTopPhim();
+                sendRequestSapChieu();
+                sendRequestDanhMuc();
+            }
+        });
+
+        explorerIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendRequestTopPhim();
+                sendRequestSapChieu();
+                sendRequestDanhMuc();
+            }
+        });
+
+        // Xử lý click cho Profile (chỉ ImageView)
+
+        profileIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Kiểm tra đăng nhập trong ImageView
+                if (null != mAuth.getCurrentUser()) {
+                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                } else {
+                    // Chuyển đến LoginActivity nếu chưa đăng nhập
+//                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
+            }
+        });
+
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Kiểm tra xem người dùng đã đăng nhập
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            // Người dùng đã đăng nhập
+        } else {
+            // Người dùng chưa đăng nhập
+        }
+    }
+
+
 
     private void initView() {
         viewPager2 = findViewById(R.id.viewpageSlider);
@@ -114,20 +194,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendRequestTopPhim() {
-        mRequestQueue = Volley.newRequestQueue(this);
+        mRequestQueue = Volley.newRequestQueue(this /*,new HurlStack((HurlStack.UrlRewriter) OkHttpClientHelper.getOkHttpClient())*/);
         loading1.setVisibility(View.VISIBLE);
+
         mStringRequest = new StringRequest(Request.Method.GET, "https://moviesapi.ir/api/v1/movies?page=1", response -> {
             Gson gson = new Gson();
             loading1.setVisibility(View.GONE);
+
             ListFilm items = gson.fromJson(response, ListFilm.class);
             adapterTopPhim = new FilmListAdapter(items);
             recyclerViewTopPhim.setAdapter(adapterTopPhim);
         }, error -> {
             loading1.setVisibility(View.GONE);
-            Log.i("UiLover", "onErrorResponse: " + error.toString());
+            Log.i("", "onErrorResponse: " + error.toString());
         });
+
+        // Thêm vào request queue
         mRequestQueue.add(mStringRequest);
     }
+
 
     private void sendRequestSapChieu() {
         mRequestQueue = Volley.newRequestQueue(this);
@@ -157,7 +242,7 @@ public class MainActivity extends AppCompatActivity {
             recyclerViewDanhMuc.setAdapter(adapterDanhMuc);
         }, error -> {
             loading2.setVisibility(View.GONE);
-            Log.i("UiLover", "onErrorResponse: " + error.toString());
+            Log.i("", "onErrorResponse: " + error.toString());
         });
         mRequestQueue.add(mStringRequest2);
     }

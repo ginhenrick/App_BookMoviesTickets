@@ -1,6 +1,7 @@
 package com.example.bookmoviestickets.Activities;
 
 public class User {
+
     public String username, password, email, phone, date;
     public User() {
         // Constructor trống cho Firebase
@@ -52,5 +53,7 @@ public class User {
     public void setDate(String date) {
         this.date = date;
     }
+
+
 }
 

@@ -18,13 +18,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 public class LoginActivity extends AppCompatActivity {
-    private EditText userEdt, passEdt;
+    private EditText usernameEdt, passwordEdt;
     private Button loginBtn;
-    private ExecutorService executorService = Executors.newSingleThreadExecutor();
     private DatabaseReference mDatabase;
 
     @Override
@@ -32,65 +28,51 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference(); // Khởi tạo Firebase Database
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        initView();
-    }
-
-    private void initView() {
-        userEdt = findViewById(R.id.editTextText);
-        passEdt = findViewById(R.id.editTextPassword);
+        usernameEdt = findViewById(R.id.editTextText);
+        passwordEdt = findViewById(R.id.editTextPassword);
         loginBtn = findViewById(R.id.loginBtn);
+        ImageView backImgLogin = findViewById(R.id.backImgLogin);
 
         loginBtn.setOnClickListener(v -> {
-            String input = userEdt.getText().toString();
-            String password = passEdt.getText().toString();
+            String username = usernameEdt.getText().toString();
+            String password = passwordEdt.getText().toString();
 
-            if (input.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Vui lòng nhập email hoặc mật khẩu!", Toast.LENGTH_SHORT).show();
+            if (username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(LoginActivity.this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
             } else {
-                attemptLogin(input, password);
+                attemptLogin(username, password);
             }
         });
-        ImageView backImgLogin = findViewById(R.id.backImgLogin);
+
         backImgLogin.setOnClickListener(v -> finish());
     }
 
-    private void attemptLogin(String input, String password) {
-        executorService.execute(() -> {
-            mDatabase.child("users").orderByChild("username").equalTo(input) // Truy vấn dữ liệu từ Firebase
-                    .addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                                    User user = userSnapshot.getValue(User.class); // Lấy dữ liệu User từ Firebase
-                                    if (password.equals(user.password)) {
-                                        // Đăng nhập thành công
-                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                    } else {
-                                        // Mật khẩu sai
-                                        runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Mật khẩu sai!", Toast.LENGTH_SHORT).show());
-                                    }
+    private void attemptLogin(String username, String password) {
+        mDatabase.child("users").orderByChild("username").equalTo(username)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                                User user = userSnapshot.getValue(User.class);
+                                if (password.equals(user.password)) {
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                } else {
+                                    Toast.makeText(LoginActivity.this, "Mật khẩu không chính xác", Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
-                                // Tên tài khoản hoặc email không tồn tại
-                                runOnUiThread(() -> Toast.makeText(LoginActivity.this, "Tên tài khoản hoặc email không tồn tại!", Toast.LENGTH_SHORT).show());
                             }
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Tài khoản không tồn tại", Toast.LENGTH_SHORT).show();
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            // Xử lý lỗi
-                        }
-                    });
-        });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        executorService.shutdown();
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(LoginActivity.this, "Lỗi kết nối cơ sở dữ liệu", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void goToSignup(View view) {

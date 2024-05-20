@@ -3,8 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookMoviesTickets"
         tools:targetApi="31">
-
+        <activity
+            android:name=".Activities.ProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.IntroActivity"
             android:exported="true">
@@ -24,19 +28,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activities.LoginActivity"
-            android:exported="false" />
-
+            android:exported="true" />
         <activity
             android:name=".Activities.MainActivity"
-            android:exported="true" />
-
+            android:exported="true"></activity>
         <activity
             android:name=".Activities.DetailActivity"
             android:exported="true" />
-
         <activity
             android:name=".Activities.SignupActivity"
             android:exported="false" />

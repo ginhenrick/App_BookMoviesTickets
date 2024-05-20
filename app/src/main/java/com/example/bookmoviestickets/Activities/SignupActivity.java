@@ -1,6 +1,5 @@
 package com.example.bookmoviestickets.Activities;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,11 +20,9 @@ import com.google.firebase.database.FirebaseDatabase;
 public class SignupActivity extends AppCompatActivity {
 
     private EditText editTextUsername, editTextEmail, editTextPhone, editTextDate, editTextPassword, editTextRePassword;
-    private Button buttonCreateAccount;
     private TextView textViewUsernameStatus, textViewEmailStatus, textViewPhoneStatus, textViewPasswordStatus;
     private DatabaseReference mDatabase;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +36,7 @@ public class SignupActivity extends AppCompatActivity {
         editTextDate = findViewById(R.id.editTextDate);
         editTextPassword = findViewById(R.id.editTextTextPassword);
         editTextRePassword = findViewById(R.id.editTextTextRePassword);
-        buttonCreateAccount = findViewById(R.id.registerBtn); // Sử dụng ID registerBtn
+        Button buttonCreateAccount = findViewById(R.id.registerBtn);
 
         textViewUsernameStatus = findViewById(R.id.textViewUsernameStatus);
         textViewEmailStatus = findViewById(R.id.textViewEmailStatus);
@@ -68,14 +65,12 @@ public class SignupActivity extends AppCompatActivity {
                         public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 textViewUsernameStatus.setVisibility(View.VISIBLE);
-                                textViewUsernameStatus.setText("Username already exists");
+                                textViewUsernameStatus.setText("Tên người dùng đã tồn tại");
                                 textViewUsernameStatus.setTextColor(getResources().getColor(R.color.red));
-                                textViewUsernameStatus.setTextAppearance(SignupActivity.this, R.style.ItalicTextView);
                             } else {
                                 textViewUsernameStatus.setVisibility(View.VISIBLE);
-                                textViewUsernameStatus.setText("Username success");
+                                textViewUsernameStatus.setText("Tên người dùng hợp lệ");
                                 textViewUsernameStatus.setTextColor(getResources().getColor(R.color.green));
-                                textViewUsernameStatus.setTextAppearance(SignupActivity.this, R.style.ItalicTextView);
                             }
                         }
 
@@ -92,12 +87,10 @@ public class SignupActivity extends AppCompatActivity {
         editTextEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Không cần xử lý
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Không cần xử lý
             }
 
             @Override
@@ -112,14 +105,12 @@ public class SignupActivity extends AppCompatActivity {
                         public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 textViewEmailStatus.setVisibility(View.VISIBLE);
-                                textViewEmailStatus.setText("Email already exists");
+                                textViewEmailStatus.setText("Email đã tồn tại");
                                 textViewEmailStatus.setTextColor(getResources().getColor(R.color.red));
-                                textViewEmailStatus.setTextAppearance(SignupActivity.this, R.style.ItalicTextView);
                             } else {
                                 textViewEmailStatus.setVisibility(View.VISIBLE);
-                                textViewEmailStatus.setText("Email success");
+                                textViewEmailStatus.setText("Email hợp lệ");
                                 textViewEmailStatus.setTextColor(getResources().getColor(R.color.green));
-                                textViewEmailStatus.setTextAppearance(SignupActivity.this, R.style.ItalicTextView);
                             }
                         }
 
@@ -136,12 +127,10 @@ public class SignupActivity extends AppCompatActivity {
         editTextPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Không cần xử lý
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Không cần xử lý
             }
 
             @Override
@@ -156,14 +145,12 @@ public class SignupActivity extends AppCompatActivity {
                         public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 textViewPhoneStatus.setVisibility(View.VISIBLE);
-                                textViewPhoneStatus.setText("Phone already exists");
+                                textViewPhoneStatus.setText("Số điện thoại đã tồn tại");
                                 textViewPhoneStatus.setTextColor(getResources().getColor(R.color.red));
-                                textViewPhoneStatus.setTextAppearance(SignupActivity.this, R.style.ItalicTextView);
                             } else {
                                 textViewPhoneStatus.setVisibility(View.VISIBLE);
-                                textViewPhoneStatus.setText("Phone success");
+                                textViewPhoneStatus.setText("Số điện thoại hợp lệ");
                                 textViewPhoneStatus.setTextColor(getResources().getColor(R.color.green));
-                                textViewPhoneStatus.setTextAppearance(SignupActivity.this, R.style.ItalicTextView);
                             }
                         }
 
@@ -180,12 +167,10 @@ public class SignupActivity extends AppCompatActivity {
         editTextPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -197,19 +182,16 @@ public class SignupActivity extends AppCompatActivity {
                     int strength = checkPasswordStrength(password);
                     if (strength == 1) {
                         textViewPasswordStatus.setVisibility(View.VISIBLE);
-                        textViewPasswordStatus.setText("Weak password");
+                        textViewPasswordStatus.setText("Mật khẩu yếu");
                         textViewPasswordStatus.setTextColor(getResources().getColor(R.color.red));
-                        textViewPasswordStatus.setTextAppearance(SignupActivity.this, R.style.ItalicTextView);
                     } else if (strength == 2) {
                         textViewPasswordStatus.setVisibility(View.VISIBLE);
-                        textViewPasswordStatus.setText("Medium Password");
+                        textViewPasswordStatus.setText("Mật khẩu trung bình");
                         textViewPasswordStatus.setTextColor(getResources().getColor(R.color.orange));
-                        textViewPasswordStatus.setTextAppearance(SignupActivity.this, R.style.ItalicTextView);
                     } else if (strength == 3) {
                         textViewPasswordStatus.setVisibility(View.VISIBLE);
-                        textViewPasswordStatus.setText("Strong Password");
+                        textViewPasswordStatus.setText("Mật khẩu mạnh");
                         textViewPasswordStatus.setTextColor(getResources().getColor(R.color.green));
-                        textViewPasswordStatus.setTextAppearance(SignupActivity.this, R.style.ItalicTextView);
                     }
                 }
             }
@@ -225,35 +207,35 @@ public class SignupActivity extends AppCompatActivity {
 
             if (username.isEmpty() || email.isEmpty() || phone.isEmpty() || date.isEmpty() || password.isEmpty() || rePassword.isEmpty()) {
                 new AlertDialog.Builder(SignupActivity.this)
-                        .setTitle("Error")
-                        .setMessage("Please complete all information!")
+                        .setTitle("Lỗi")
+                        .setMessage("Vui lòng điền đầy đủ thông tin!")
                         .setPositiveButton("OK", null)
                         .show();
             } else if (!password.equals(rePassword)) {
                 new AlertDialog.Builder(SignupActivity.this)
-                        .setTitle("Error")
-                        .setMessage("Password incorrect!")
+                        .setTitle("Lỗi")
+                        .setMessage("Mật khẩu không khớp!")
                         .setPositiveButton("OK", null)
                         .show();
             } else {
-
-                // Tạo đối tượng User
                 User user = new User(username, password, email, phone, date);
 
-                // Lưu dữ liệu lên Firebase
-                String userId = mDatabase.child("users").push().getKey(); // Tạo một key duy nhất
+                String userId = mDatabase.child("users").push().getKey();
+                assert userId != null;
                 mDatabase.child("users").child(userId).setValue(user)
                         .addOnSuccessListener(aVoid -> {
-                            Toast.makeText(SignupActivity.this, "Register Successfully!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, "Đăng ký thành công!", Toast.LENGTH_SHORT).show();
                         })
                         .addOnFailureListener(e -> {
-                            Toast.makeText(SignupActivity.this, "Register Failed! Permission denied.", Toast.LENGTH_SHORT).show(); // Thêm thông báo lỗi chi tiết
+                            Toast.makeText(SignupActivity.this, "Đăng ký thất bại!", Toast.LENGTH_SHORT).show();
                         });
             }
         });
+
         ImageView backImgSignup = findViewById(R.id.backImgSignup);
         backImgSignup.setOnClickListener(v -> finish());
     }
+
 
     // Hàm kiểm tra độ mạnh của mật khẩu (ví dụ đơn giản)
     private int checkPasswordStrength(String password) {
